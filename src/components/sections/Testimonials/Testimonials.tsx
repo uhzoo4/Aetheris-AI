@@ -1,6 +1,7 @@
 import { Container } from '../../ui/Container';
 import { GlassCard } from '../../ui/GlassCard';
 import { AnimatedHeading } from '../../ui/AnimatedHeading';
+import { useTilt } from '../../../hooks/useTilt';
 
 const testimonials = [
   {
@@ -27,6 +28,12 @@ const testimonials = [
 ];
 
 export function Testimonials() {
+  const card1Ref = useTilt<HTMLDivElement>({ maxRotation: 4 });
+  const card2Ref = useTilt<HTMLDivElement>({ maxRotation: 4 });
+  const card3Ref = useTilt<HTMLDivElement>({ maxRotation: 4 });
+
+  const cardRefs = [card1Ref, card2Ref, card3Ref];
+
   return (
     <section className="py-32 bg-nocturnal-expedition/10">
       <Container>
@@ -36,10 +43,15 @@ export function Testimonials() {
         </div>
         <div className="columns-1 md:columns-3 gap-gutter space-y-gutter">
           {testimonials.map((testimonial, i) => (
-            <GlassCard key={i} className="break-inside-avoid p-8 hover:-translate-y-2 transition-transform duration-slow border-mystic-mint/10">
+            <GlassCard 
+              key={i} 
+              ref={cardRefs[i]}
+              className="break-inside-avoid p-8 hover:-translate-y-2 transition-all duration-slow border-mystic-mint/10 glass-highlight hover:shadow-elevation-high group"
+              style={{ transitionDelay: `${i * 150}ms` }}
+            >
               <p className="font-body-md italic mb-8 text-arctic-powder opacity-90 leading-relaxed">"{testimonial.quote}"</p>
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-full overflow-hidden grayscale contrast-125 border border-mystic-mint/20">
+                <div className="w-12 h-12 rounded-full overflow-hidden grayscale contrast-125 border border-mystic-mint/20 group-hover:grayscale-0 group-hover:contrast-100 transition-all duration-normal">
                   <img className="w-full h-full object-cover" data-alt={testimonial.alt} src={testimonial.image} />
                 </div>
                 <div>
