@@ -35,7 +35,7 @@ export function Testimonials() {
   const cardRefs = [card1Ref, card2Ref, card3Ref];
 
   return (
-    <section className="py-32 bg-nocturnal-expedition/10">
+    <section id="testimonials" className="py-32 bg-nocturnal-expedition/10">
       <Container>
         <div className="text-center mb-20">
           <AnimatedHeading className="font-headline-lg text-headline-lg mb-6 text-arctic-powder tracking-tighter">Designed for Experts.</AnimatedHeading>

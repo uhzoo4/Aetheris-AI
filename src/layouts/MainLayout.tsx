@@ -2,9 +2,16 @@ import { useEffect, useState } from 'react';
 import type { ReactNode } from 'react';
 import { CinematicCursor } from '../components/ui/CinematicCursor';
 
+interface ModalData {
+  isOpen: boolean;
+  title: string;
+  message: string;
+}
+
 export function MainLayout({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
   const [progress, setProgress] = useState(0);
+  const [modal, setModal] = useState<ModalData>({ isOpen: false, title: '', message: '' });
 
   useEffect(() => {
     // Check prefers-reduced-motion: skip preloader or render immediately
@@ -37,6 +44,20 @@ export function MainLayout({ children }: { children: ReactNode }) {
     };
 
     requestAnimationFrame(updateCounter);
+  }, []);
+
+  useEffect(() => {
+    const handleOpenModal = (e: Event) => {
+      const customEvent = e as CustomEvent<{ title: string; message: string }>;
+      setModal({
+        isOpen: true,
+        title: customEvent.detail.title || 'Platform Notification',
+        message: customEvent.detail.message || 'Action executed successfully.'
+      });
+    };
+
+    window.addEventListener('open-aetheris-modal', handleOpenModal);
+    return () => window.removeEventListener('open-aetheris-modal', handleOpenModal);
   }, []);
 
   return (
@@ -79,6 +100,38 @@ export function MainLayout({ children }: { children: ReactNode }) {
           </div>
         </div>
       </div>
+
+      {/* Global Interactive Alert Modal */}
+      {modal.isOpen && (
+        <div 
+          className="fixed inset-0 w-screen h-screen z-[99999] flex items-center justify-center p-6 bg-oceanic-noir/75 backdrop-blur-md"
+          onClick={() => setModal({ isOpen: false, title: '', message: '' })}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="modal-title"
+        >
+          <div 
+            className="glass max-w-md w-full p-8 rounded-2xl border border-mystic-mint/20 flex flex-col items-center text-center shadow-elevation-high relative"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="w-12 h-12 rounded-full bg-nocturnal-expedition flex items-center justify-center mb-6 precision-border shadow-glow-primary">
+              <span className="text-deep-saffron text-2xl">✓</span>
+            </div>
+            <h3 id="modal-title" className="font-display-lg text-xl font-bold text-arctic-powder mb-3 tracking-tight">
+              {modal.title}
+            </h3>
+            <p className="font-body-md text-mystic-mint/80 leading-relaxed text-sm">
+              {modal.message}
+            </p>
+            <button
+              onClick={() => setModal({ isOpen: false, title: '', message: '' })}
+              className="bg-deep-saffron text-oceanic-noir font-bold px-6 py-2.5 rounded-xl mt-6 cursor-pointer hover:scale-105 active:scale-95 duration-fast focus-visible:ring-2 focus-visible:ring-deep-saffron outline-none text-sm shadow-elevation-mid hover:shadow-glow-primary"
+            >
+              Acknowledge
+            </button>
+          </div>
+        </div>
+      )}
 
       {children}
     </>

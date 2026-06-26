@@ -81,8 +81,12 @@ export function Pricing() {
   const card1Ref = useTilt<HTMLDivElement>({ maxRotation: 4 });
   const card2Ref = useTilt<HTMLDivElement>({ maxRotation: 4 });
 
+  const openModal = (title: string, message: string) => {
+    window.dispatchEvent(new CustomEvent('open-aetheris-modal', { detail: { title, message } }));
+  };
+
   return (
-    <section className="py-32 px-container-padding max-w-5xl mx-auto">
+    <section id="pricing" className="py-32 px-container-padding max-w-5xl mx-auto">
       <div className="text-center mb-16">
         <AnimatedHeading className="font-headline-lg text-headline-lg mb-4 text-arctic-powder tracking-tighter">Simple Scale.</AnimatedHeading>
         <BillingToggle />
@@ -115,7 +119,12 @@ export function Pricing() {
               <SvgIcon name="chevron-right" className="text-deep-saffron text-sm" /> 24/7 Priority Engineer Support
             </li>
           </ul>
-          <Button className="w-full py-4 rounded-xl border border-deep-saffron/40 text-deep-saffron font-bold hover:bg-deep-saffron/10 transition-all hover:scale-102 active:scale-98 duration-fast relative z-10 cursor-pointer focus-visible:ring-2 focus-visible:ring-deep-saffron outline-none">Select Pro</Button>
+          <Button 
+            onClick={() => openModal('Order Initialized', 'Aetheris Pro plan chosen. Processing secure subscription request...')}
+            className="w-full py-4 rounded-xl border border-deep-saffron/40 text-deep-saffron font-bold hover:bg-deep-saffron/10 transition-all hover:scale-102 active:scale-98 duration-fast relative z-10 cursor-pointer focus-visible:ring-2 focus-visible:ring-deep-saffron outline-none"
+          >
+            Select Pro
+          </Button>
         </GlassCard>
 
         {/* Custom Tier */}
@@ -140,7 +149,12 @@ export function Pricing() {
               </li>
             </ul>
           </div>
-          <Button className="w-full py-4 rounded-xl bg-arctic-powder text-oceanic-noir font-bold hover:opacity-90 transition-all hover:scale-102 active:scale-98 duration-fast cursor-pointer focus-visible:ring-2 focus-visible:ring-deep-saffron outline-none">Contact Sales</Button>
+          <Button 
+            onClick={() => openModal('Enterprise Ingestion', 'Connecting with account engineering. Custom deployment schedules will be sent to your domain.')}
+            className="w-full py-4 rounded-xl bg-arctic-powder text-oceanic-noir font-bold hover:opacity-90 transition-all hover:scale-102 active:scale-98 duration-fast cursor-pointer focus-visible:ring-2 focus-visible:ring-deep-saffron outline-none"
+          >
+            Contact Sales
+          </Button>
         </GlassCard>
       </div>
     </section>

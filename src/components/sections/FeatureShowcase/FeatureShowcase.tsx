@@ -49,8 +49,12 @@ export function FeatureShowcase() {
     }
   };
 
+  const openModal = (title: string, message: string) => {
+    window.dispatchEvent(new CustomEvent('open-aetheris-modal', { detail: { title, message } }));
+  };
+
   return (
-    <section ref={containerRef} className="py-32 px-container-padding max-w-7xl mx-auto" aria-labelledby="showcase-title">
+    <section id="features" ref={containerRef} className="py-32 px-container-padding max-w-7xl mx-auto" aria-labelledby="showcase-title">
       <div className="mb-20">
         <span className="font-code-md text-code-md text-deep-saffron mb-4 block tracking-widest">CORE CAPABILITIES</span>
         <AnimatedHeading id="showcase-title" className="font-headline-lg text-headline-lg max-w-xl text-arctic-powder tracking-tighter">
@@ -143,7 +147,10 @@ export function FeatureShowcase() {
                   style={{ backgroundImage: "url('https://lh3.googleusercontent.com/aida-public/AB6AXuAy4GkwkSDCgpWYYH8CikxWkcKE-F1vPO1duyATYgVlfrFM6BOmpj3GeQlM4HuAW3Jkwz1XsHZ7ciVG1AhsGeTUqjZpUW50IWxHbE-XVoJQXCfdaLFU2v7YJ1bXGuObsz-olGSDc7hLA2PdXqfjFvL9xP1qr7SBg8FNNrFPtOYLUb7TwNJxZrbf9ol3coNRUdBnC-QF-VrSxJa3bPR3SxxKA07xIui07kO0p6qLSmnk2OvlmhMUiE3V3j4YY7Zr9sQI68dCEeSXZ_3K')" }}
                 />
               </div>
-              <button className="flex items-center gap-2 text-deep-saffron hover:gap-4 transition-all duration-normal cursor-pointer focus-visible:ring-2 focus-visible:ring-deep-saffron outline-none">
+              <button 
+                onClick={() => openModal('Regulatory Compliance', 'Ledger audit signatures and compliance certificates are available under partner NDAs.')}
+                className="flex items-center gap-2 text-deep-saffron hover:gap-4 transition-all duration-normal cursor-pointer focus-visible:ring-2 focus-visible:ring-deep-saffron outline-none"
+              >
                 Explore Security <SvgIcon name="chevron-right" className="text-lg" />
               </button>
             </div>
@@ -285,7 +292,10 @@ export function FeatureShowcase() {
               <div className="font-code-md text-deep-saffron mb-2 tracking-widest uppercase">Infrastructure</div>
               <h3 className="font-headline-md text-headline-md mb-4 leading-snug text-arctic-powder">Distributed Ledger Integrity</h3>
               <p className="text-mystic-mint opacity-80 mb-6 leading-relaxed">Every transformation is cryptographically signed and logged for total regulatory auditability.</p>
-              <button className="flex items-center gap-2 text-deep-saffron hover:gap-4 transition-all duration-normal cursor-pointer focus-visible:ring-2 focus-visible:ring-deep-saffron outline-none">
+              <button 
+                onClick={(e) => { e.stopPropagation(); openModal('Regulatory Compliance', 'Ledger audit signatures and compliance certificates are available under partner NDAs.'); }}
+                className="flex items-center gap-2 text-deep-saffron hover:gap-4 transition-all duration-normal cursor-pointer focus-visible:ring-2 focus-visible:ring-deep-saffron outline-none"
+              >
                 Explore Security <SvgIcon name="chevron-right" className="text-lg" />
               </button>
             </div>

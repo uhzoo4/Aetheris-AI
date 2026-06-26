@@ -64,6 +64,9 @@
 }
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+  }
   body {
     background-color: var(--color-oceanic-noir);
     color: var(--color-arctic-powder);
