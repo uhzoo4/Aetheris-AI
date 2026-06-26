@@ -12,7 +12,7 @@ export function Footer() {
         <div>
           <div className="font-label-caps text-label-caps text-mystic-mint mb-6 tracking-widest">AETHERIS</div>
           <p className="font-code-md text-code-md text-mystic-mint opacity-60 max-w-xs mb-8">
-            © 2024 Aetheris Systems. <br/>
+            © 2026 Aetheris Systems. <br/>
             Engineered for Precision. All rights reserved.
           </p>
         </div>

@@ -29,8 +29,8 @@ export function useTilt<T extends HTMLElement>({ maxRotation = 2.5 }: TiltOption
     if (prefersReducedMotion) return;
 
     const tick = () => {
-      // Dynamic interpolation speeds: buttery smooth and responsive
-      const lerpSpeed = isHovered.current ? 0.15 : 0.10;
+      // Dynamic interpolation speeds: calibrated responsiveness
+      const lerpSpeed = isHovered.current ? 0.20 : 0.12;
 
       currentX.current += (targetX.current - currentX.current) * lerpSpeed;
       currentY.current += (targetY.current - currentY.current) * lerpSpeed;
