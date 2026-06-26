@@ -28,23 +28,23 @@ const testimonials = [
 
 export function Testimonials() {
   return (
-    <section className="py-32 bg-surface-container-lowest/30">
+    <section className="py-32 bg-nocturnal-expedition/10">
       <Container>
         <div className="text-center mb-20">
-          <AnimatedHeading className="font-headline-lg text-headline-lg mb-6">Designed for Experts.</AnimatedHeading>
-          <p className="text-on-surface-variant opacity-70 max-w-xl mx-auto">Hear from the engineers and architects building the future of automated enterprise intelligence.</p>
+          <AnimatedHeading className="font-headline-lg text-headline-lg mb-6 text-arctic-powder tracking-tighter">Designed for Experts.</AnimatedHeading>
+          <p className="text-mystic-mint opacity-80 max-w-xl mx-auto leading-relaxed">Hear from the engineers and architects building the future of automated enterprise intelligence.</p>
         </div>
         <div className="columns-1 md:columns-3 gap-gutter space-y-gutter">
           {testimonials.map((testimonial, i) => (
-            <GlassCard key={i} className="break-inside-avoid p-8 hover:translate-y-[-4px] transition-transform duration-300">
-              <p className="font-body-md italic mb-8 opacity-90 leading-relaxed">"{testimonial.quote}"</p>
+            <GlassCard key={i} className="break-inside-avoid p-8 hover:-translate-y-2 transition-transform duration-500 border-mystic-mint/10">
+              <p className="font-body-md italic mb-8 text-arctic-powder opacity-90 leading-relaxed">"{testimonial.quote}"</p>
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-full overflow-hidden grayscale">
+                <div className="w-12 h-12 rounded-full overflow-hidden grayscale contrast-125 border border-mystic-mint/20">
                   <img className="w-full h-full object-cover" data-alt={testimonial.alt} src={testimonial.image} />
                 </div>
                 <div>
-                  <p className="font-bold text-on-surface">{testimonial.name}</p>
-                  <p className="font-code-md text-[10px] text-primary uppercase opacity-60">{testimonial.role}</p>
+                  <p className="font-bold text-arctic-powder">{testimonial.name}</p>
+                  <p className="font-code-md text-[10px] text-deep-saffron uppercase opacity-80 tracking-widest">{testimonial.role}</p>
                 </div>
               </div>
             </GlassCard>

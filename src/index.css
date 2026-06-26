@@ -1,33 +1,58 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@theme {
+  --color-arctic-powder: #F1F6F4;
+  --color-mystic-mint: #D9E8E2;
+  --color-forsythia: #FFC801;
+  --color-deep-saffron: #FF9932;
+  --color-nocturnal-expedition: #114C5A;
+  --color-oceanic-noir: #172B36;
+
+  --font-body-sm: Inter, sans-serif;
+  --font-body-md: Inter, sans-serif;
+  --font-body-lg: Inter, sans-serif;
+  --font-headline-md: Inter, sans-serif;
+  --font-headline-lg: Inter, sans-serif;
+  --font-display-lg: Inter, sans-serif;
+  --font-code-md: JetBrains Mono, monospace;
+  --font-label-caps: JetBrains Mono, monospace;
+
+  --spacing-container-padding: 40px;
+  --spacing-gutter: 24px;
+}
 
 @layer base {
   body {
-    background-color: #250724;
-    color: #ffd7f5;
+    background-color: #172B36;
+    color: #F1F6F4;
     -webkit-font-smoothing: antialiased;
   }
 }
 
 @layer utilities {
   .glass {
-    background: rgba(31, 3, 30, 0.6);
+    background: rgba(17, 76, 90, 0.4);
     backdrop-filter: blur(24px);
-    border: 0.5px solid rgba(253, 209, 205, 0.1);
+    border-top: 1px solid rgba(217, 232, 226, 0.1);
+    border-left: 1px solid rgba(217, 232, 226, 0.1);
+    border-right: 1px solid rgba(23, 43, 54, 0.3);
+    border-bottom: 1px solid rgba(23, 43, 54, 0.3);
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
   }
   
   .precision-border {
-    border: 0.5px solid rgba(253, 209, 205, 0.15);
+    border: 1px solid rgba(217, 232, 226, 0.15);
   }
   
   .ambient-glow {
-    filter: blur(80px);
-    opacity: 0.15;
-    background: radial-gradient(circle, #dfb6b2 0%, transparent 70%);
+    filter: blur(100px);
+    opacity: 0.25;
+    background: radial-gradient(circle, #FF9932 0%, transparent 70%);
   }
-  
-  .material-symbols-outlined {
-    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+
+  .ambient-glow-secondary {
+    filter: blur(100px);
+    opacity: 0.15;
+    background: radial-gradient(circle, #FFC801 0%, transparent 70%);
   }
 }
