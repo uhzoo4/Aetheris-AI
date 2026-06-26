@@ -52,7 +52,7 @@ export function Testimonials() {
               <p className="font-body-md italic mb-8 text-arctic-powder opacity-90 leading-relaxed">"{testimonial.quote}"</p>
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 rounded-full overflow-hidden grayscale contrast-125 border border-mystic-mint/20 group-hover:grayscale-0 group-hover:contrast-100 transition-all duration-normal">
-                  <img className="w-full h-full object-cover" data-alt={testimonial.alt} src={testimonial.image} />
+                  <img className="w-full h-full object-cover" alt={testimonial.alt} src={testimonial.image} />
                 </div>
                 <div>
                   <p className="font-bold text-arctic-powder">{testimonial.name}</p>
