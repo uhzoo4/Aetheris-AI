@@ -31,7 +31,7 @@ export function FeatureShowcase() {
         {/* Vertical Card */}
         <GlassCard className="md:col-span-4 md:row-span-2 p-10 flex flex-col justify-end bg-gradient-to-t from-oceanic-noir/80 to-transparent relative group hover:-translate-y-1">
           <div 
-            className="absolute inset-0 bg-cover bg-center opacity-10 grayscale group-hover:grayscale-0 transition-all duration-700 mix-blend-overlay" 
+            className="absolute inset-0 bg-cover bg-center opacity-10 grayscale group-hover:grayscale-0 transition-all duration-slow mix-blend-overlay" 
             style={{ backgroundImage: "url('https://lh3.googleusercontent.com/aida-public/AB6AXuAy4GkwkSDCgpWYYH8CikxWkcKE-F1vPO1duyATYgVlfrFM6BOmpj3GeQlM4HuAW3Jkwz1XsHZ7ciVG1AhsGeTUqjZpUW50IWxHbE-XVoJQXCfdaLFU2v7YJ1bXGuObsz-olGSDc7hLA2PdXqfjFvL9xP1qr7SBg8FNNrFPtOYLUb7TwNJxZrbf9ol3coNRUdBnC-QF-VrSxJa3bPR3SxxKA07xIui07kO0p6qLSmnk2OvlmhMUiE3V3j4YY7Zr9sQI68dCEeSXZ_3K')" }}
           ></div>
           <div className="relative z-10">

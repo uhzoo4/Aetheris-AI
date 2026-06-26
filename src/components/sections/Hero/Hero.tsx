@@ -15,7 +15,7 @@ export function Hero() {
       <div 
         ref={ref as any} 
         className={cn(
-          "relative z-10 max-w-4xl transition-all duration-1000",
+          "relative z-10 max-w-4xl transition-all duration-cinematic",
           isIntersecting ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
         )}
       >

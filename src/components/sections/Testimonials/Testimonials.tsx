@@ -36,7 +36,7 @@ export function Testimonials() {
         </div>
         <div className="columns-1 md:columns-3 gap-gutter space-y-gutter">
           {testimonials.map((testimonial, i) => (
-            <GlassCard key={i} className="break-inside-avoid p-8 hover:-translate-y-2 transition-transform duration-500 border-mystic-mint/10">
+            <GlassCard key={i} className="break-inside-avoid p-8 hover:-translate-y-2 transition-transform duration-slow border-mystic-mint/10">
               <p className="font-body-md italic mb-8 text-arctic-powder opacity-90 leading-relaxed">"{testimonial.quote}"</p>
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 rounded-full overflow-hidden grayscale contrast-125 border border-mystic-mint/20">
