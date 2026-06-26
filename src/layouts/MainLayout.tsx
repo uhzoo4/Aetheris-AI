@@ -14,7 +14,7 @@ export function MainLayout({ children }: { children: ReactNode }) {
       return;
     }
 
-    const duration = 1800; // Total loading time in ms
+    const duration = 2400; // Total loading time in ms
     const startTime = performance.now();
 
     const updateCounter = (now: number) => {
@@ -45,7 +45,7 @@ export function MainLayout({ children }: { children: ReactNode }) {
 
       {/* Editorial Matrix Preloader */}
       <div 
-        className={`fixed inset-0 w-screen h-screen bg-[#0a0e1a] z-99998 flex flex-col justify-between p-10 md:p-16 select-none transition-all duration-[1200ms] ease-[cubic-bezier(0.9,0,0.1,1)] will-change-[clip-path] ${
+        className={`fixed inset-0 w-screen h-screen bg-[#0a0e1a] z-99998 flex flex-col justify-between p-10 md:p-16 select-none transition-all duration-[1500ms] ease-[cubic-bezier(0.9,0,0.1,1)] will-change-[clip-path] ${
           loading 
             ? '[clip-path:polygon(0_0,_100%_0,_100%_100%,_0_100%)]' 
             : '[clip-path:polygon(0_0,_100%_0,_100%_0,_0_0)] pointer-events-none'

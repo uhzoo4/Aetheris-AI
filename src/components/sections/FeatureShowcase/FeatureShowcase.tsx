@@ -28,7 +28,7 @@ export function FeatureShowcase() {
 
       if (rect.top < viewportHeight && rect.bottom > 0) {
         const scrolledPct = (viewportHeight - rect.top) / (viewportHeight + rect.height);
-        setParallaxOffset((scrolledPct - 0.5) * 50);
+        setParallaxOffset((scrolledPct - 0.5) * 30);
       }
     };
 

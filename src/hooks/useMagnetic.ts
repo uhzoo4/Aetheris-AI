@@ -5,7 +5,7 @@ interface MagneticOptions {
   snapsBack?: boolean;
 }
 
-export function useMagnetic<T extends HTMLElement>({ strength = 0.25, snapsBack = true }: MagneticOptions = {}) {
+export function useMagnetic<T extends HTMLElement>({ strength = 0.12, snapsBack = true }: MagneticOptions = {}) {
   const ref = useRef<T>(null);
 
   useEffect(() => {
@@ -24,15 +24,15 @@ export function useMagnetic<T extends HTMLElement>({ strength = 0.25, snapsBack 
       const dx = e.clientX - cx;
       const dy = e.clientY - cy;
 
-      // Direct DOM mutation for 60fps performance
-      element.style.transition = 'none';
+      // Direct DOM mutation for 60fps performance with smooth lag tracking
+      element.style.transition = 'transform 300ms cubic-bezier(0.25, 0.8, 0.25, 1)';
       element.style.transform = `translate3d(${dx * strength}px, ${dy * strength}px, 0)`;
     };
 
     const handleMouseLeave = () => {
       if (snapsBack) {
         // Smooth snap back utilizing official brand easing
-        element.style.transition = 'transform 400ms cubic-bezier(0.25, 0.1, 0.25, 1)';
+        element.style.transition = 'transform 450ms cubic-bezier(0.25, 1, 0.5, 1)';
         element.style.transform = 'translate3d(0px, 0px, 0)';
       }
     };

@@ -4,8 +4,21 @@ interface TiltOptions {
   maxRotation?: number; // Maximum rotation in degrees
 }
 
-export function useTilt<T extends HTMLElement>({ maxRotation = 6 }: TiltOptions = {}) {
+export function useTilt<T extends HTMLElement>({ maxRotation = 2.5 }: TiltOptions = {}) {
   const ref = useRef<T>(null);
+  
+  const targetX = useRef(50);
+  const targetY = useRef(50);
+  const targetTiltX = useRef(0);
+  const targetTiltY = useRef(0);
+
+  const currentX = useRef(50);
+  const currentY = useRef(50);
+  const currentTiltX = useRef(0);
+  const currentTiltY = useRef(0);
+  
+  const rAFId = useRef<number | null>(null);
+  const isHovered = useRef(false);
 
   useEffect(() => {
     const element = ref.current;
@@ -15,33 +28,65 @@ export function useTilt<T extends HTMLElement>({ maxRotation = 6 }: TiltOptions 
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReducedMotion) return;
 
+    const tick = () => {
+      // Dynamic interpolation speeds: slower return to mimic heavy physical damping
+      const lerpSpeed = isHovered.current ? 0.08 : 0.05;
+
+      currentX.current += (targetX.current - currentX.current) * lerpSpeed;
+      currentY.current += (targetY.current - currentY.current) * lerpSpeed;
+      currentTiltX.current += (targetTiltX.current - currentTiltX.current) * lerpSpeed;
+      currentTiltY.current += (targetTiltY.current - currentTiltY.current) * lerpSpeed;
+
+      element.style.setProperty('--mouse-x', `${currentX.current}%`);
+      element.style.setProperty('--mouse-y', `${currentY.current}%`);
+      element.style.transform = `perspective(1200px) rotateY(${currentTiltX.current * maxRotation}deg) rotateX(${-currentTiltY.current * maxRotation}deg) translateZ(8px)`;
+
+      const diff = 
+        Math.abs(currentTiltX.current - targetTiltX.current) + 
+        Math.abs(currentTiltY.current - targetTiltY.current);
+
+      if (!isHovered.current && diff < 0.005) {
+        // Rest state reached, clean up styles and stop tick
+        element.style.setProperty('--mouse-x', '50%');
+        element.style.setProperty('--mouse-y', '50%');
+        element.style.transform = 'perspective(1200px) rotateY(0deg) rotateX(0deg) translateZ(0)';
+        rAFId.current = null;
+      } else {
+        rAFId.current = requestAnimationFrame(tick);
+      }
+    };
+
     const handleMouseMove = (e: MouseEvent) => {
       const rect = element.getBoundingClientRect();
       const cx = rect.left + rect.width / 2;
       const cy = rect.top + rect.height / 2;
       
-      const dx = (e.clientX - cx) / (rect.width / 2);
-      const dy = (e.clientY - cy) / (rect.height / 2);
+      targetTiltX.current = (e.clientX - cx) / (rect.width / 2);
+      targetTiltY.current = (e.clientY - cy) / (rect.height / 2);
 
       const localX = e.clientX - rect.left;
       const localY = e.clientY - rect.top;
-      const percentX = (localX / rect.width) * 100;
-      const percentY = (localY / rect.height) * 100;
+      targetX.current = (localX / rect.width) * 100;
+      targetY.current = (localY / rect.height) * 100;
 
-      // Update CSS variables for reflection highlighting
-      element.style.setProperty('--mouse-x', `${percentX}%`);
-      element.style.setProperty('--mouse-y', `${percentY}%`);
+      isHovered.current = true;
 
-      // Apply 3D perspective and rotation directly
-      element.style.transition = 'none';
-      element.style.transform = `perspective(1200px) rotateY(${dx * maxRotation}deg) rotateX(${-dy * maxRotation}deg) translateZ(8px)`;
+      // Start the animation loop if it is not already running
+      if (rAFId.current === null) {
+        rAFId.current = requestAnimationFrame(tick);
+      }
     };
 
     const handleMouseLeave = () => {
-      element.style.transition = 'transform 500ms cubic-bezier(0.25, 0.1, 0.25, 1)';
-      element.style.transform = `perspective(1200px) rotateY(0deg) rotateX(0deg) translateZ(0)`;
-      element.style.setProperty('--mouse-x', '50%');
-      element.style.setProperty('--mouse-y', '50%');
+      targetX.current = 50;
+      targetY.current = 50;
+      targetTiltX.current = 0;
+      targetTiltY.current = 0;
+      isHovered.current = false;
+      
+      if (rAFId.current === null) {
+        rAFId.current = requestAnimationFrame(tick);
+      }
     };
 
     element.addEventListener('mousemove', handleMouseMove, { passive: true });
@@ -50,6 +95,9 @@ export function useTilt<T extends HTMLElement>({ maxRotation = 6 }: TiltOptions 
     return () => {
       element.removeEventListener('mousemove', handleMouseMove);
       element.removeEventListener('mouseleave', handleMouseLeave);
+      if (rAFId.current !== null) {
+        cancelAnimationFrame(rAFId.current);
+      }
     };
   }, [maxRotation]);
 

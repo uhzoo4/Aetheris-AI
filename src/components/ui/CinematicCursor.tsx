@@ -71,7 +71,7 @@ export function CinematicCursor() {
 
     // Dynamic easing follow-loop using requestAnimationFrame (smooth custom inertia)
     const tick = () => {
-      const ease = 0.15; // Smooth interpolation speed factor
+      const ease = 0.28; // Smooth interpolation speed factor
       cursorX += (mouseX - cursorX) * ease;
       cursorY += (mouseY - cursorY) * ease;
 

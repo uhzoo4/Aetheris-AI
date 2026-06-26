@@ -1,9 +1,9 @@
 export const motion = {
   duration: {
-    fast: '150ms',
+    fast: '180ms',
     normal: '300ms',
-    slow: '500ms',
-    cinematic: '1000ms',
+    slow: '600ms',
+    cinematic: '900ms',
   },
   easing: {
     standard: 'cubic-bezier(0.4, 0, 0.2, 1)',
