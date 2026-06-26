@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import type { ReactNode } from 'react';
 import { CinematicCursor } from '../components/ui/CinematicCursor';
+import Lenis from 'lenis';
+import 'lenis/dist/lenis.css';
 
 interface ModalData {
   isOpen: boolean;
@@ -58,6 +60,28 @@ export function MainLayout({ children }: { children: ReactNode }) {
 
     window.addEventListener('open-aetheris-modal', handleOpenModal);
     return () => window.removeEventListener('open-aetheris-modal', handleOpenModal);
+  }, []);
+
+  useEffect(() => {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) return;
+
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+    });
+
+    const raf = (time: number) => {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    };
+
+    requestAnimationFrame(raf);
+
+    return () => {
+      lenis.destroy();
+    };
   }, []);
 
   return (

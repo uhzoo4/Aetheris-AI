@@ -1,31 +1,36 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { Button } from '../../ui/Button';
 import { cn } from '../../../utils/cn';
 
-export function Navbar() {
+interface NavbarProps {
+  onLoginClick: () => void;
+  onLinkClick: () => void;
+  showLogin: boolean;
+}
+
+export function Navbar({ onLoginClick, onLinkClick, showLogin }: NavbarProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [visible, setVisible] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const lastScrollYRef = useRef(0);
 
   useEffect(() => {
     const handleScroll = () => {
       if (isMobileMenuOpen) return; // Prevent hiding when mobile drawer is active
       const currentScrollY = window.scrollY;
-      setIsScrolled(currentScrollY > 50);
+      
+      const nextIsScrolled = currentScrollY > 50;
+      const nextVisible = currentScrollY <= 200 || currentScrollY <= lastScrollYRef.current;
 
-      // Hide navbar if scrolling down, show if scrolling up
-      if (currentScrollY > 200 && currentScrollY > lastScrollY) {
-        setVisible(false);
-      } else {
-        setVisible(true);
-      }
-      setLastScrollY(currentScrollY);
+      setIsScrolled((prev) => (prev !== nextIsScrolled ? nextIsScrolled : prev));
+      setVisible((prev) => (prev !== nextVisible ? nextVisible : prev));
+
+      lastScrollYRef.current = currentScrollY;
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [lastScrollY, isMobileMenuOpen]);
+  }, [isMobileMenuOpen]);
 
   const openModal = (title: string, message: string) => {
     window.dispatchEvent(new CustomEvent('open-aetheris-modal', { detail: { title, message } }));
@@ -46,24 +51,24 @@ export function Navbar() {
             href="#" 
             aria-label="Aetheris Homepage"
             className="font-display-lg text-display-lg tracking-tighter text-arctic-powder hover:text-deep-saffron transition-colors duration-normal focus-visible:ring-2 focus-visible:ring-deep-saffron outline-none z-[60]"
-            onClick={() => setIsMobileMenuOpen(false)}
+            onClick={() => { setIsMobileMenuOpen(false); onLinkClick(); }}
           >
             Aetheris
           </a>
           
           {/* Desktop Navigation links */}
           <div className="group hidden md:flex gap-8 items-center">
-            <a className="text-mystic-mint font-medium hover:text-deep-saffron transition-all duration-normal font-body-md text-body-md group-hover:opacity-40 hover:!opacity-100 focus-visible:ring-2 focus-visible:ring-deep-saffron outline-none" href="#features">Platform</a>
-            <a className="text-mystic-mint font-medium hover:text-deep-saffron transition-all duration-normal font-body-md text-body-md group-hover:opacity-40 hover:!opacity-100 focus-visible:ring-2 focus-visible:ring-deep-saffron outline-none" href="#features">Solutions</a>
-            <a className="text-mystic-mint font-medium hover:text-deep-saffron transition-all duration-normal font-body-md text-body-md group-hover:opacity-40 hover:!opacity-100 focus-visible:ring-2 focus-visible:ring-deep-saffron outline-none" href="#testimonials">Resources</a>
-            <a className="text-mystic-mint font-medium hover:text-deep-saffron transition-all duration-normal font-body-md text-body-md group-hover:opacity-40 hover:!opacity-100 focus-visible:ring-2 focus-visible:ring-deep-saffron outline-none" href="#pricing">Pricing</a>
+            <a onClick={onLinkClick} className="text-mystic-mint font-medium hover:text-deep-saffron transition-all duration-normal font-body-md text-body-md group-hover:opacity-40 hover:!opacity-100 focus-visible:ring-2 focus-visible:ring-deep-saffron outline-none" href="#features">Platform</a>
+            <a onClick={onLinkClick} className="text-mystic-mint font-medium hover:text-deep-saffron transition-all duration-normal font-body-md text-body-md group-hover:opacity-40 hover:!opacity-100 focus-visible:ring-2 focus-visible:ring-deep-saffron outline-none" href="#features">Solutions</a>
+            <a onClick={onLinkClick} className="text-mystic-mint font-medium hover:text-deep-saffron transition-all duration-normal font-body-md text-body-md group-hover:opacity-40 hover:!opacity-100 focus-visible:ring-2 focus-visible:ring-deep-saffron outline-none" href="#testimonials">Resources</a>
+            <a onClick={onLinkClick} className="text-mystic-mint font-medium hover:text-deep-saffron transition-all duration-normal font-body-md text-body-md group-hover:opacity-40 hover:!opacity-100 focus-visible:ring-2 focus-visible:ring-deep-saffron outline-none" href="#pricing">Pricing</a>
           </div>
           
           {/* Desktop Auth buttons */}
           <div className="hidden md:flex items-center gap-6">
             <Button 
-              onClick={() => openModal('Client Portal Access', 'Authenticating secure session... Client portal is currently in sandbox verification mode.')}
-              className="text-mystic-mint font-medium hover:text-deep-saffron transition-colors duration-normal font-body-md text-body-md focus-visible:ring-2 focus-visible:ring-deep-saffron outline-none cursor-pointer"
+              onClick={onLoginClick}
+              className={cn("text-mystic-mint font-medium hover:text-deep-saffron transition-colors duration-normal font-body-md text-body-md focus-visible:ring-2 focus-visible:ring-deep-saffron outline-none cursor-pointer", showLogin && "text-deep-saffron")}
             >
               Login
             </Button>
@@ -98,28 +103,28 @@ export function Navbar() {
         )}
       >
         <a 
-          onClick={() => setIsMobileMenuOpen(false)}
+          onClick={() => { setIsMobileMenuOpen(false); onLinkClick(); }}
           href="#features" 
           className="text-mystic-mint font-medium hover:text-deep-saffron transition-all font-body-lg text-2xl focus-visible:ring-2 focus-visible:ring-deep-saffron outline-none"
         >
           Platform
         </a>
         <a 
-          onClick={() => setIsMobileMenuOpen(false)}
+          onClick={() => { setIsMobileMenuOpen(false); onLinkClick(); }}
           href="#features" 
           className="text-mystic-mint font-medium hover:text-deep-saffron transition-all font-body-lg text-2xl focus-visible:ring-2 focus-visible:ring-deep-saffron outline-none"
         >
           Solutions
         </a>
         <a 
-          onClick={() => setIsMobileMenuOpen(false)}
+          onClick={() => { setIsMobileMenuOpen(false); onLinkClick(); }}
           href="#testimonials" 
           className="text-mystic-mint font-medium hover:text-deep-saffron transition-all font-body-lg text-2xl focus-visible:ring-2 focus-visible:ring-deep-saffron outline-none"
         >
           Resources
         </a>
         <a 
-          onClick={() => setIsMobileMenuOpen(false)}
+          onClick={() => { setIsMobileMenuOpen(false); onLinkClick(); }}
           href="#pricing" 
           className="text-mystic-mint font-medium hover:text-deep-saffron transition-all font-body-lg text-2xl focus-visible:ring-2 focus-visible:ring-deep-saffron outline-none"
         >
@@ -127,7 +132,7 @@ export function Navbar() {
         </a>
         <div className="flex flex-col gap-4 w-full px-12 mt-6">
           <Button 
-            onClick={() => { setIsMobileMenuOpen(false); openModal('Client Portal Access', 'Authenticating secure session... Client portal is currently in sandbox verification mode.'); }}
+            onClick={() => { setIsMobileMenuOpen(false); onLoginClick(); }}
             className="text-mystic-mint font-medium hover:text-deep-saffron transition-colors font-body-md text-lg border border-mystic-mint/20 py-3 rounded-xl focus-visible:ring-2 focus-visible:ring-deep-saffron outline-none cursor-pointer"
           >
             Login

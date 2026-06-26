@@ -7,7 +7,7 @@ import { cn } from '../../../utils/cn';
 
 export function FeatureShowcase() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [parallaxOffset, setParallaxOffset] = useState(0);
+  const parallaxImageRef = useRef<HTMLDivElement>(null);
   const [isMobile, setIsMobile] = useState(false);
   const [activeCardId, setActiveCardId] = useState<string>('synth');
 
@@ -22,13 +22,14 @@ export function FeatureShowcase() {
     };
 
     const handleScroll = () => {
-      if (!containerRef.current || window.innerWidth < 768) return;
+      if (!containerRef.current || !parallaxImageRef.current || window.innerWidth < 768) return;
       const rect = containerRef.current.getBoundingClientRect();
       const viewportHeight = window.innerHeight;
 
       if (rect.top < viewportHeight && rect.bottom > 0) {
         const scrolledPct = (viewportHeight - rect.top) / (viewportHeight + rect.height);
-        setParallaxOffset((scrolledPct - 0.5) * 30);
+        const offset = (scrolledPct - 0.5) * 30;
+        parallaxImageRef.current.style.transform = `translate3d(0, ${offset}px, 0) scale(1.15)`;
       }
     };
 
@@ -281,10 +282,11 @@ export function FeatureShowcase() {
           >
             <div className="absolute inset-0 bg-[#050505] overflow-hidden vignette-overlay z-0 pointer-events-none">
               <div 
+                ref={parallaxImageRef}
                 className="w-full h-[120%] absolute -top-[10%] left-0 bg-cover bg-center opacity-15 grayscale group-hover:opacity-25 group-hover:grayscale-0 transition-all duration-slow mix-blend-overlay will-change-transform bg-scanlines" 
                 style={{ 
                   backgroundImage: "url('https://lh3.googleusercontent.com/aida-public/AB6AXuAy4GkwkSDCgpWYYH8CikxWkcKE-F1vPO1duyATYgVlfrFM6BOmpj3GeQlM4HuAW3Jkwz1XsHZ7ciVG1AhsGeTUqjZpUW50IWxHbE-XVoJQXCfdaLFU2v7YJ1bXGuObsz-olGSDc7hLA2PdXqfjFvL9xP1qr7SBg8FNNrFPtOYLUb7TwNJxZrbf9ol3coNRUdBnC-QF-VrSxJa3bPR3SxxKA07xIui07kO0p6qLSmnk2OvlmhMUiE3V3j4YY7Zr9sQI68dCEeSXZ_3K')",
-                  transform: `translate3d(0, ${parallaxOffset}px, 0) scale(1.15)`
+                  transform: 'translate3d(0, 0, 0) scale(1.15)'
                 }}
               ></div>
             </div>
